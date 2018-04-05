@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="location">
+            <value>classpath:dubbo-config.properties</value>
+        </property>
+    </bean>
+
+    <!-- provider's application name, used for tracing dependency relationship -->
+    <dubbo:application name="user-provider"/>
+
+    <!-- use multicast registry center to export service -->
+    <dubbo:registry address="zookeeper://localhost:2181"/>
+
+    <!-- use dubbo protocol to export service on port 20880 -->
+    <dubbo:protocol name="dubbo" port="20880"/>
+
+    <!-- service implementation, as same as regular local bean -->
+    <bean id="userService" class="com.wang.dubbo.provider.UserServiceImpl" />
+
+    <!-- declare the service interface to be exported -->
+    <dubbo:service interface="com.wang.dubbo.api.UserService" ref="userService" />
+</beans>
+
+
+
+
