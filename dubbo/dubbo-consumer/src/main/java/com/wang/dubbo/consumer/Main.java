@@ -13,7 +13,8 @@ public class Main {
         context.start();
         UserService demoService = (UserService) context.getBean("userService"); // get remote service proxy
 
-        while (true) {
+        int i=1;
+        while (i>0) {
             try {
                 Thread.sleep(1000);
                 User user =demoService.findById(100);
@@ -22,7 +23,7 @@ public class Main {
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
-
+            i--;
 
         }
 
