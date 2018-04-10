@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %5p %c{1}:%L - %m%n" />
+        </Console>
+        <RollingRandomAccessFile name="request_backup" fileName="target/request_backup.log"
+            filePattern="target/request_backup-%d{yyyy-MM-dd}-%i.log" immediateFlush="true">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %5p %c{1}:%L - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="250 MB" />
+            </Policies>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="track_log" fileName="target/track.log"
+            filePattern="target/track-%d{yyyy-MM-dd}-%i.log" immediateFlush="true">
+            <PatternLayout pattern="%m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="250 MB" />
+            </Policies>
+        </RollingRandomAccessFile>
+
+    </Appenders>
+
+    <Loggers>
+        <Logger name="track.log" level="debug" additivity="false">
+            <AppenderRef ref="track_log" />
+        </Logger>
+        <Logger name="face.log" level="info" additivity="false">
+            <AppenderRef ref="Console" />
+        </Logger>
+        <Logger name="request.backup" level="debug" additivity="false">
+            <AppenderRef ref="request_backup" />
+        </Logger>
+        <Logger name="com.wang" level="debug">
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="Console" />
+        </Root>
+    </Loggers>
+</Configuration>
